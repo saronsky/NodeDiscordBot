@@ -1,0 +1,26 @@
+{
+  "name": "nodediscordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "collect": "^0.3.5",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
+    "fs": "^0.0.1-security",
+    "get-mp3-duration": "^1.0.0",
+    "get-video-duration": "^4.1.0",
+    "got": "^12.6.0",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "mp3-duration": "^1.1.0",
+    "openai": "^3.2.1",
+    "ytdl-core": "^4.11.2"
+  }
+}
