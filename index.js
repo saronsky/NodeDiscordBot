@@ -7,17 +7,19 @@ import dotenv from "dotenv";
 import collect from "collect";
 import fs from "fs";
 import { Client, Collection, GatewayIntentBits, Events, Routes, AttachmentBuilder } from "discord.js";
-import QuestionCommand from './commands/slash/questions.js';
-import TranscriptCommand from './commands/slash/transcript.js';
-import SummaryTranscriptCommand from './commands/slash/summaryTranscript.js';
-import MessageTranscriptCommand from './commands/messageContext/transcript.js';
-import MessageSummaryTranscriptCommand from './commands/messageContext/summaryTranscript.js';
+import QuestionSlashCommand from './commands/slash/questions.js';
+import TranscribeSlashCommand from './commands/slash/transcribe.js';
+import SummarizeTranscriptSlashCommand from './commands/slash/summarizeTranscript.js';
+import SummarizeArticleSlashCommand from './commands/slash/summarizeArticle.js';
+import TranscribeMessageCommand from './commands/messageContext/transcribe.js';
+import SummarizeTranscriptMessageCommand from './commands/messageContext/summarizeTranscript.js';
 import { REST } from '@discordjs/rest';
 import Ask from './chatGPTHandler.js';
 import Respond from './textResponseHandler.js';
 import Transcribe from './whisperHandler.js';
 import Summarize from './videoSummaryHandler.js';
-import History from './collectGPTHistory.js'
+import History from './collectGPTHistory.js';
+import Article from './articleHandler.js'
 
 
 dotenv.config();
@@ -49,6 +51,11 @@ client.on('interactionCreate', async (interaction) => {
             interaction.editReply(Respond(await Transcribe(userMessage, client, true, reply)))
         } else if (interaction.commandName === 'summarize_video') {
             interaction.editReply(Respond(await Summarize(userMessage, client, true, reply) + "\n\n" + userMessage))
+        } else if (interaction.commandName === 'summarize_article') {
+            var customPromptParam = interaction.options._hoistedOptions[1];
+            var customPrompt;
+            if (customPromptParam === undefined) { customPrompt = "Summarize this text: " } else { customPrompt = customPromptParam.value };
+            interaction.editReply(Respond(await Article(userMessage, customPrompt, client)))
         }
         interaction.fetchReply().then((replyMessage) => {
             console.log(replyMessage.id)
@@ -72,11 +79,12 @@ client.on('messageCreate', async (message) => {
 
 async function main() {
     const commands = [
-        QuestionCommand,
-        TranscriptCommand,
-        SummaryTranscriptCommand,
-        MessageTranscriptCommand,
-        MessageSummaryTranscriptCommand
+        QuestionSlashCommand,
+        TranscribeSlashCommand,
+        SummarizeTranscriptSlashCommand,
+        TranscribeMessageCommand,
+        SummarizeTranscriptMessageCommand,
+        SummarizeArticleSlashCommand
     ];
     try {
         console.log('Started refreshing application (/) commands.');
