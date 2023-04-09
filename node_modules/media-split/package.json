@@ -1,0 +1,71 @@
+{
+  "name": "media-split",
+  "version": "5.4.0",
+  "description": "Split audio (and video) files",
+  "main": "index.js",
+  "author": {
+    "name": "Thiago Oliveira",
+    "email": "thiago_ogt@outlook.com"
+  },
+  "contributors": [
+    {
+      "name": "Thiago Oliveira",
+      "email": "thiago_ogt@outlook.com"
+    }
+  ],
+  "files": [
+    "cli",
+    "lib",
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "repository": "https://github.com/skiptirengu/media-split",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "~4.1.2",
+    "cli-progress": "^3.9.1",
+    "eslint": "^8.6.0",
+    "global-modules": "^2.0.0",
+    "miniget": "^4.2.1",
+    "sanitize-filename": "^1.6.3",
+    "yargs": "~17.3.1",
+    "ytdl-core": "^4.9.2"
+  },
+  "peerDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "ffmpeg-static": "^4.3.0"
+  },
+  "bin": {
+    "mp3-split": "cli/index.js",
+    "media-split": "cli/index.js"
+  },
+  "scripts": {
+    "test": "mocha spec/*.spec.js",
+    "coverage": "nyc mocha spec/*.spec.js",
+    "lint": "eslint index.js lib/ cli/ spec/",
+    "lint:fix": "eslint index.js lib/ cli/ spec/ --fix",
+    "docs": "jsdoc2md lib/MediaSplit.js > docs/index.md"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "devDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@types/chai": "^4.3.0",
+    "chai": "^4.3.4",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "mocha": "^9.1.3",
+    "mock-require": "^3.0.3",
+    "mp3-duration": "^1.1.0",
+    "nyc": "^15.1.0",
+    "pre-commit": "^1.2.2"
+  },
+  "optionalDependencies": {
+    "jsdoc-to-markdown": "^7.1.0"
+  }
+}

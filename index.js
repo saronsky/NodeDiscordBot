@@ -42,15 +42,13 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.isChatInputCommand()) {
         console.log('Chat Command');
         var userMessage = interaction.options._hoistedOptions[0].value;
-        console.log(interaction.id);
         if (interaction.commandName === 'question') {
             Ask(userMessage, client).then((response) => {
                 interaction.editReply({ content: String(response) })
             })
         } else if (interaction.commandName === 'transcribe') {
-            Transcribe(userMessage, client, true, reply).then((response) => {
-                interaction.editReply({ content: String(response) })
-            })
+            const response = await Transcribe(userMessage, client, true, reply)
+            interaction.editReply({ content: String(response) })
         } else if (interaction.commandName === 'summarize_video') {
             interaction.editReply(await Summarize(userMessage, client, true, reply) + "\n\n" + userMessage)
         }
