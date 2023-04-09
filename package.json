@@ -24,7 +24,8 @@
     "https": "^1.0.0",
     "media-split": "^5.4.0",
     "mp3-duration": "^1.1.0",
+    "npm-check-updates": "^16.10.7",
     "openai": "^3.2.1",
-    "ytdl-core": "^4.11.2"
+    "ytdl-core": "github:ShantanuNair/node-ytdl-core#v4.11.3-patch.1"
   }
 }

@@ -6,7 +6,7 @@ Save all interactions in ChatGPT:.. User:... format in messageid.txt*/
 import dotenv from "dotenv";
 import collect from "collect";
 import fs from "fs";
-import { Client, Collection, GatewayIntentBits, Events, Routes } from "discord.js";
+import { Client, Collection, GatewayIntentBits, Events, Routes, AttachmentBuilder } from "discord.js";
 import QuestionCommand from './commands/slash/questions.js';
 import TranscriptCommand from './commands/slash/transcript.js';
 import SummaryTranscriptCommand from './commands/slash/summaryTranscript.js';
@@ -14,6 +14,7 @@ import MessageTranscriptCommand from './commands/messageContext/transcript.js';
 import MessageSummaryTranscriptCommand from './commands/messageContext/summaryTranscript.js';
 import { REST } from '@discordjs/rest';
 import Ask from './chatGPTHandler.js';
+import Respond from './textResponseHandler.js';
 import Transcribe from './whisperHandler.js';
 import Summarize from './videoSummaryHandler.js';
 import History from './collectGPTHistory.js'
@@ -43,14 +44,11 @@ client.on('interactionCreate', async (interaction) => {
         console.log('Chat Command');
         var userMessage = interaction.options._hoistedOptions[0].value;
         if (interaction.commandName === 'question') {
-            Ask(userMessage, client).then((response) => {
-                interaction.editReply({ content: String(response) })
-            })
+            interaction.editReply(Respond(await Ask(userMessage, client)))
         } else if (interaction.commandName === 'transcribe') {
-            const response = await Transcribe(userMessage, client, true, reply)
-            interaction.editReply({ content: String(response) })
+            interaction.editReply(Respond(await Transcribe(userMessage, client, true, reply)))
         } else if (interaction.commandName === 'summarize_video') {
-            interaction.editReply(await Summarize(userMessage, client, true, reply) + "\n\n" + userMessage)
+            interaction.editReply(Respond(await Summarize(userMessage, client, true, reply) + "\n\n" + userMessage))
         }
         interaction.fetchReply().then((replyMessage) => {
             console.log(replyMessage.id)
@@ -58,11 +56,9 @@ client.on('interactionCreate', async (interaction) => {
     } else if (interaction.isMessageContextMenuCommand()) {
         const attachment = interaction.targetMessage.attachments.first().attachment
         if (interaction.commandName === 'transcribe') {
-            Transcribe(attachment, client, false, reply).then((response) => {
-                interaction.editReply({ content: String(response) })
-            })
+            interaction.editReply(Respond(await Transcribe(attachment, client, false, reply)))
         } else if (interaction.commandName === 'summarize_video') {
-            interaction.editReply(await Summarize(attachment, client, false, reply))
+            interaction.editReply(Respond(await Summarize(attachment, client, false, reply)))
         }
     }
 })
