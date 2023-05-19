@@ -14,12 +14,12 @@ import SummarizeArticleSlashCommand from './commands/slash/summarizeArticle.js';
 import TranscribeMessageCommand from './commands/messageContext/transcribe.js';
 import SummarizeTranscriptMessageCommand from './commands/messageContext/summarizeTranscript.js';
 import { REST } from '@discordjs/rest';
-import Ask from './chatGPT.js';
-import Respond from './textOrFileResponse.js';
-import Transcribe from './whisper.js';
-import Summarize from './videoSummary.js';
-import History from './collectGPTHistory.js';
-import Article from './article.js'
+import Ask from './commandsLogic/chatGPT.js';
+import Respond from './commandsLogic/textOrFileResponse.js';
+import Transcribe from './commandsLogic/whisper.js';
+import Summarize from './commandsLogic/videoSummary.js';
+import History from './commandsLogic/collectGPTHistory.js';
+import Article from './commandsLogic/article.js'
 
 
 dotenv.config();
