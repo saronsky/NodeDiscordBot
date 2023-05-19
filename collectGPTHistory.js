@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Configuration, OpenAIApi } from "openai";
 import dotenv from "dotenv";
-import Cost from './queryCostHandler.js'
+import Cost from './queryCost.js'
 dotenv.config();
 const openai = new OpenAIApi(new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
